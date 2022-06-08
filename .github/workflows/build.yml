@@ -19,10 +19,10 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - name: Build application module
-        run: (cd modules/application; mvn --batch-mode deploy)
+        run: (cd modules/application; mvn -DaltDeploymentRepository=github::default::https://maven.pkg.github.com/edward-mamezou/use-openapi-generator --batch-mode deploy)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Build controller module
-        run: (cd modules/controller; mvn --batch-mode deploy)
+        run: (cd modules/controller; mvn -DaltDeploymentRepository=github::default::https://maven.pkg.github.com/edward-mamezou/use-openapi-generator --batch-mode deploy)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
