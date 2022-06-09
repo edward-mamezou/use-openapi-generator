@@ -11,7 +11,7 @@ additionalProperties:
   java8: true
   library: spring-boot
   artifactId: 'example-controller'
-  artifactVersion: '0.1.0'
+  artifactVersion: '0.2.0'
   interfaceOnly: true
   snapshotVersion: 'true'
   useTags: true

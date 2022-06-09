@@ -12,8 +12,8 @@ configurations {
 }
 
 group = 'com.mamezou_tech.example-service'
-version = '0.1.0-SNAPSHOT'
-sourceCompatibility = '1.8'
+version = '0.2.0-SNAPSHOT'
+sourceCompatibility = '1.17'
 
 repositories {
     mavenCentral()
@@ -23,10 +23,10 @@ repositories {
 dependencies {
     implementation     'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation     ('com.mamezou_tech.example-service:example-controller:0.1.0-SNAPSHOT') {
+    implementation     ('com.mamezou_tech.example-service:example-controller:0.2.0-SNAPSHOT') {
         changing = true
     }
-    unzipFile          ('com.mamezou_tech.example-service:example-application:0.1.0-SNAPSHOT') {
+    unzipFile          ('com.mamezou_tech.example-service:example-application:0.2.0-SNAPSHOT') {
         changing = true
     }
 }
@@ -37,7 +37,7 @@ test {
 
 task unzip(type: Copy) {
     def file = configurations.unzipFile.files.find {
-        'example-application-0.1.0-SNAPSHOT.jar'
+        'example-application-0.2.0-SNAPSHOT.jar'
     }
     from zipTree(file)
     into 'build/unzipFile'

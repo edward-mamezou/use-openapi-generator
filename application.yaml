@@ -11,6 +11,6 @@ additionalProperties:
   java8: true
   library: spring-boot
   artifactId: 'example-application'
-  artifactVersion: '0.1.0'
+  artifactVersion: '0.2.0'
   snapshotVersion: 'true'
   useTags: true
