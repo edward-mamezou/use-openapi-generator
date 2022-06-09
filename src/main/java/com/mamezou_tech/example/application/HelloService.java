@@ -20,7 +20,7 @@ public class HelloService {
 
     public Optional<HelloVoice> sayHello(final String jwtPayload) {
         Optional<String> maybePayload = Optional.ofNullable(jwtPayload);
-        Optional<Person> maybePerson = maybePayload.map(this::parseRequest);
+        Optional<Person> maybePerson = maybePayload.flatMap(payload -> Optional.ofNullable(parseRequest(payload)));
         return maybePerson.flatMap(person -> Optional.ofNullable(voiceFactory.sayHello(person)));
     }
 
