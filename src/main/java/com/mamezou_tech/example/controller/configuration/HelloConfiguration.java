@@ -1,24 +1,28 @@
 package com.mamezou_tech.example.controller.configuration;
 
-import com.mamezou_tech.example.application.HelloService;
-import com.mamezou_tech.example.domain.factory.VoiceFactory;
-import com.mamezou_tech.example.infrastructure.VoiceFactoryImpl;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.integration.dsl.IntegrationFlow;
+import org.springframework.integration.mqtt.outbound.MqttPahoMessageHandler;
+import software.amazon.awssdk.services.polly.PollyClient;
+
+import java.util.UUID;
 
 @Configuration
+@ComponentScan(basePackages = {"com.mamezou_tech.example.application",
+    "com.mamezou_tech.example.infrastructure"})
 public class HelloConfiguration {
 
-    private final VoiceFactory voiceFactory = new VoiceFactoryImpl();
-
     @Bean
-    public VoiceFactory getVoiceFactory() {
-        return voiceFactory;
+    public PollyClient getPollyClient() {
+        return PollyClient.builder().build();
     }
 
     @Bean
-    public HelloService getHello() {
-        return new HelloService(voiceFactory);
+    public IntegrationFlow getHibernationPodHelloFlow() {
+        MqttPahoMessageHandler handler = new MqttPahoMessageHandler("tcp://localhost:1883", UUID.randomUUID().toString());
+        handler.setDefaultTopic("hibernation-pod/hello");
+        return flow -> flow.handle(handler);
     }
-
 }

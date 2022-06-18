@@ -1,40 +1,27 @@
 package com.mamezou_tech.example.application;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mamezou_tech.example.domain.factory.VoiceFactory;
-import com.mamezou_tech.example.domain.valueobject.HelloVoice;
-import com.mamezou_tech.example.domain.valueobject.Person;
+import com.mamezou_tech.example.domain.aggregate.HelloEvents;
+import com.mamezou_tech.example.domain.aggregate.HibernationPods;
+import com.mamezou_tech.example.domain.factory.HelloEventFactory;
+import com.mamezou_tech.example.domain.repository.HelloEventRepository;
+import com.mamezou_tech.example.domain.valueobject.HibernationPodId;
+import com.mamezou_tech.example.domain.valueobject.Passenger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.util.Base64;
-import java.util.Map;
-import java.util.Optional;
-
+@Component
 public class HelloService {
 
-    private final VoiceFactory voiceFactory;
+    private final HibernationPods hibernationPods;
 
-    public HelloService(VoiceFactory voiceFactory) {
-        this.voiceFactory = voiceFactory;
+    public HelloService(@Autowired HelloEventFactory helloEventFactory, HelloEventRepository helloEventRepository) {
+        HelloEvents helloEvents = new HelloEvents(helloEventRepository);
+        this.hibernationPods = new HibernationPods(helloEventFactory, helloEvents);
     }
 
-    public Optional<HelloVoice> sayHello(final String jwtPayload) {
-        Optional<String> maybePayload = Optional.ofNullable(jwtPayload);
-        Optional<Person> maybePerson = maybePayload.flatMap(payload -> Optional.ofNullable(parseRequest(payload)));
-        return maybePerson.flatMap(person -> Optional.ofNullable(voiceFactory.sayHello(person)));
-    }
-
-    Person parseRequest(final String payload) {
-        byte[] decodedPayload = Base64.getUrlDecoder().decode(payload);
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            Map<?, ?> mappedPayload = mapper.readValue(decodedPayload, Map.class);
-            if (mappedPayload.get("custom:firstname") instanceof String firstName) {
-                return new Person(firstName);
-            }
-        } catch (IOException e) {
-            return null;
-        }
-        return null;
+    public String sayHello(final String podId, final String firstName) {
+        HibernationPodId hibernationPodId = new HibernationPodId(podId);
+        Passenger passenger = new Passenger(firstName);
+        return hibernationPods.sayHello(hibernationPodId, passenger);
     }
 }

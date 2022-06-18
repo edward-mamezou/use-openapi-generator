@@ -1,13 +1,20 @@
 openapi: 3.0.2
 info:
-  version: 0.1.0
+  version: 0.4.0
   title: example-service
 servers:
   - url: 'http://localhost:8080/example'
 paths:
-  /hello:
+  /hibernation-pod/{podId}/hello:
     get:
-      description: example
+      description: Hello
+      parameters:
+        - name: podId
+          in: path
+          description: Identity of a hibernation pod
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: OK
@@ -16,7 +23,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Hello'
       tags:
-        - example
+        - hibernation-pod
 components:
   schemas:
     Hello:
@@ -26,4 +33,4 @@ components:
           type: string
           example: 'Hello World'
       x-tags:
-        - example
+        - hibernation-pod

@@ -1,5 +1,11 @@
 package com.mamezou_tech.example.controller.api;
 
+import com.mamezou_tech.example.domain.domainevent.HelloEvent;
+import com.mamezou_tech.example.domain.entity.HibernationPod;
+import com.mamezou_tech.example.domain.repository.HelloEventRepository;
+import com.mamezou_tech.example.domain.valueobject.EventId;
+import com.mamezou_tech.example.domain.valueobject.HibernationPodId;
+import com.mamezou_tech.example.domain.valueobject.Passenger;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,13 +15,23 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Base64;
+import java.util.UUID;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class OpenApiGeneratorApplicationTests {
 
     private final String payload;
+
+    @Autowired
+    private HelloEventRepository repository;
 
     OpenApiGeneratorApplicationTests() {
         final String jsonPayload = "{\"iss\":\"http://localhost\",\"custom:firstname\":\"James\",\"aud\":\"APPCLIENTID\",\"exp\":1654758757,\"custom:type\":\"Human\"}";
@@ -28,9 +44,20 @@ class OpenApiGeneratorApplicationTests {
 
     @Test
     void sayHello(@Autowired TestRestTemplate restTemplate) {
-        RequestEntity<?> request = RequestEntity.get("/example/hello").header("payload", payload).build();
+        RequestEntity<?> request = RequestEntity.get("/example/hibernation-pod/id-001/hello").header("payload", payload).build();
 
         ResponseEntity<String> response = restTemplate.exchange(request, String.class);
         Assertions.assertEquals(HttpStatus.OK.value(), response.getStatusCodeValue());
+    }
+
+    @Test
+    void publish() throws MalformedURLException {
+        EventId eventId = new EventId(UUID.randomUUID().toString());
+        HibernationPodId podId = new HibernationPodId("id-001");
+        Passenger passenger = new Passenger("James");
+        ZonedDateTime time = Instant.now().atZone(ZoneId.of("UTC"));
+        URL url = new File("src/test/resources/james.wav").toURI().toURL();
+        HelloEvent event = new HelloEvent(eventId, new HibernationPod(podId, passenger), url, time);
+        repository.save(event);
     }
 }
