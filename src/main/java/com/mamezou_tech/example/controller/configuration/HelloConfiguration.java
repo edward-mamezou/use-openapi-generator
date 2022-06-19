@@ -16,7 +16,7 @@ import java.util.UUID;
 public class HelloConfiguration {
 
     @Value("${openapi.exampleService.paho.broker-url:tcp://localhost:1883}")
-    private String url;
+    private String brokerUrl;
 
     @Value("${openapi.exampleService.paho.defaultTopic:hibernation-pod/hello}")
     private String defaultTopic;
@@ -28,7 +28,7 @@ public class HelloConfiguration {
 
     @Bean
     public IntegrationFlow getHibernationPodHelloFlow() {
-        MqttPahoMessageHandler handler = new MqttPahoMessageHandler(url, UUID.randomUUID().toString());
+        MqttPahoMessageHandler handler = new MqttPahoMessageHandler(brokerUrl, UUID.randomUUID().toString());
         handler.setDefaultTopic(defaultTopic);
         return flow -> flow.handle(handler);
     }
