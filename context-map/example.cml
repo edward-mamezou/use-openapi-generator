@@ -13,7 +13,7 @@ BoundedContext ExampleContext {
             - HibernationPodId podId
             - Passenger passenger
 
-            def String sayHello();
+            def HelloEvent sayHello(String podId, String firstName);
         }
 
         ValueObject HibernationPodId {
@@ -34,7 +34,7 @@ BoundedContext ExampleContext {
             URL helloVoice
             DateTime time
 
-            def void publishEvent();
+            def HelloEvent publishEvent(HibernationPod hibernationPod);
         }
 
         ValueObject EventId {

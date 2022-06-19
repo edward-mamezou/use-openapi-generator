@@ -13,11 +13,11 @@ public class HibernationPods {
         this.helloEvents = helloEvents;
     }
 
-    public String sayHello(final String podId, final String firstName) {
+    public HelloEvent sayHello(final String podId, final String firstName) {
         HibernationPodId hibernationPodId = new HibernationPodId(podId);
         Passenger passenger = new Passenger(firstName);
         HibernationPod hibernationPod = new HibernationPod(hibernationPodId, passenger);
         HelloEvent helloEvent = helloEvents.publishEvent(hibernationPod);
-        return helloEvent.helloVoice().toExternalForm();
+        return helloEvent;
     }
 }

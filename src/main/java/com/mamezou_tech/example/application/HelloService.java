@@ -2,6 +2,7 @@ package com.mamezou_tech.example.application;
 
 import com.mamezou_tech.example.domain.aggregate.HelloEvents;
 import com.mamezou_tech.example.domain.aggregate.HibernationPods;
+import com.mamezou_tech.example.domain.domainevent.HelloEvent;
 import com.mamezou_tech.example.domain.factory.HelloEventFactory;
 import com.mamezou_tech.example.domain.repository.HelloEventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ public class HelloService {
     }
 
     public String sayHello(final String podId, final String firstName) {
-        return hibernationPods.sayHello(podId, firstName);
+        HelloEvent helloEvent = hibernationPods.sayHello(podId, firstName);
+        return helloEvent.eventId().eventId();
     }
 }
