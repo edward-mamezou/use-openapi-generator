@@ -4,8 +4,6 @@ import com.mamezou_tech.example.domain.aggregate.HelloEvents;
 import com.mamezou_tech.example.domain.aggregate.HibernationPods;
 import com.mamezou_tech.example.domain.factory.HelloEventFactory;
 import com.mamezou_tech.example.domain.repository.HelloEventRepository;
-import com.mamezou_tech.example.domain.valueobject.HibernationPodId;
-import com.mamezou_tech.example.domain.valueobject.Passenger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,8 +18,6 @@ public class HelloService {
     }
 
     public String sayHello(final String podId, final String firstName) {
-        HibernationPodId hibernationPodId = new HibernationPodId(podId);
-        Passenger passenger = new Passenger(firstName);
-        return hibernationPods.sayHello(hibernationPodId, passenger);
+        return hibernationPods.sayHello(podId, firstName);
     }
 }
