@@ -15,8 +15,8 @@ public class HelloService {
     private final HibernationPods hibernationPods;
 
     public HelloService(@Autowired HelloEventFactory helloEventFactory, HelloEventRepository helloEventRepository) {
-        HelloEvents helloEvents = new HelloEvents(helloEventRepository);
-        this.hibernationPods = new HibernationPods(helloEventFactory, helloEvents);
+        HelloEvents helloEvents = new HelloEvents(helloEventFactory, helloEventRepository);
+        this.hibernationPods = new HibernationPods(helloEvents);
     }
 
     public String sayHello(final String podId, final String firstName) {
