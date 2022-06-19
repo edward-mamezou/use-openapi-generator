@@ -15,10 +15,10 @@ import java.util.UUID;
     "com.mamezou_tech.example.infrastructure"})
 public class HelloConfiguration {
 
-    @Value("${openapi.exampleService.mqtt.url:tcp://localhost:1883}")
+    @Value("${openapi.exampleService.paho.broker-url:tcp://localhost:1883}")
     private String url;
 
-    @Value("${openapi.exampleService.mqtt.defaultTopic:hibernation-pod/hello}")
+    @Value("${openapi.exampleService.paho.defaultTopic:hibernation-pod/hello}")
     private String defaultTopic;
 
     @Bean
