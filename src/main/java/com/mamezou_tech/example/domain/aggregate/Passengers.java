@@ -5,11 +5,11 @@ import com.mamezou_tech.example.domain.entity.HibernationPod;
 import com.mamezou_tech.example.domain.valueobject.HibernationPodId;
 import com.mamezou_tech.example.domain.valueobject.Passenger;
 
-public class HibernationPods {
+public class Passengers {
 
     private final HelloEvents helloEvents;
 
-    public HibernationPods(final HelloEvents helloEvents) {
+    public Passengers(final HelloEvents helloEvents) {
         this.helloEvents = helloEvents;
     }
 
