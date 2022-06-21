@@ -11,15 +11,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class HelloService {
 
-    private final Passengers hibernationPods;
+    private final Passengers passengers;
 
     public HelloService(@Autowired HelloEventFactory helloEventFactory, HelloEventRepository helloEventRepository) {
         HelloEvents helloEvents = new HelloEvents(helloEventFactory, helloEventRepository);
-        this.hibernationPods = new Passengers(helloEvents);
+        this.passengers = new Passengers(helloEvents);
     }
 
     public String sayHello(final String podId, final String firstName) {
-        HelloEvent helloEvent = hibernationPods.sayHello(podId, firstName);
+        HelloEvent helloEvent = passengers.sayHello(podId, firstName);
         return helloEvent.eventId().eventId();
     }
 }
