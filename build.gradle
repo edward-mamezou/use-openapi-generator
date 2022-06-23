@@ -12,7 +12,7 @@ configurations {
 }
 
 group = 'com.mamezou-tech.example-service'
-version = '0.3.0-SNAPSHOT'
+version = '0.5.0-SNAPSHOT'
 sourceCompatibility = '1.17'
 
 repositories {
@@ -26,12 +26,15 @@ dependencies {
     implementation 'org.springframework.integration:spring-integration-mqtt'
 
     implementation 'com.googlecode.soundlibs:mp3spi:1.9.5-1'
+
     implementation 'software.amazon.awssdk:polly:2.17.213'
 
-    implementation     ('com.mamezou-tech.example-service:example-controller:0.4.0-SNAPSHOT') {
+    implementation 'com.google.zxing:javase:3.5.0'
+
+    implementation ('com.mamezou-tech.example-service:example-controller:' + version) {
         changing = true
     }
-    unzipFile          ('com.mamezou-tech.example-service:example-application:0.4.0-SNAPSHOT') {
+    unzipFile      ('com.mamezou-tech.example-service:example-application:' + version) {
         changing = true
     }
 
@@ -44,7 +47,7 @@ test {
 
 task unzip(type: Copy) {
     def file = configurations.unzipFile.files.find {
-        'example-application-0.4.0-SNAPSHOT.jar'
+        'example-application-' + version + '.jar'
     }
     from zipTree(file)
     into 'build/unzipFile'
