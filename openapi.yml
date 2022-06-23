@@ -1,6 +1,6 @@
 openapi: 3.0.2
 info:
-  version: 0.4.0
+  version: 0.5.0
   title: example-service
 servers:
   - url: 'http://localhost:8080/example'
@@ -24,6 +24,53 @@ paths:
                 $ref: '#/components/schemas/Hello'
       tags:
         - hibernation-pod
+  /index:
+    get:
+      description: Login Url
+      parameters:
+        - name: podId
+          in: query
+          description: Identity of a hibernation pod
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+      tags:
+        - auth
+  /login:
+    get:
+      description: Redirect to Authorization Endpoint
+      parameters:
+        - name: podId
+          in: query
+          description: Identity of a hibernation pod
+          required: true
+          schema:
+            type: string
+      responses:
+        '302':
+          description: FOUND
+      tags:
+        - auth
+  /callback:
+    get:
+      description: https://openid.net/specs/openid-connect-core-1_0.html#CodeFlowSteps
+      responses:
+        '200':
+          description: OK
+          content:
+            text/html:
+              schema:
+                type: string
+      tags:
+        - auth
 components:
   schemas:
     Hello:

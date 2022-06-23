@@ -5,15 +5,12 @@ import com.mamezou_tech.example.domain.aggregate.Passengers;
 import com.mamezou_tech.example.domain.domainevent.HelloEvent;
 import com.mamezou_tech.example.domain.factory.HelloEventFactory;
 import com.mamezou_tech.example.domain.repository.HelloEventRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
 public class HelloService {
 
     private final Passengers passengers;
 
-    public HelloService(@Autowired HelloEventFactory helloEventFactory, HelloEventRepository helloEventRepository) {
+    public HelloService(HelloEventFactory helloEventFactory, HelloEventRepository helloEventRepository) {
         HelloEvents helloEvents = new HelloEvents(helloEventFactory, helloEventRepository);
         this.passengers = new Passengers(helloEvents);
     }

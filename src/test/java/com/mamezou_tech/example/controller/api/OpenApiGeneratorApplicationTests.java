@@ -6,14 +6,9 @@ import com.mamezou_tech.example.domain.repository.HelloEventRepository;
 import com.mamezou_tech.example.domain.valueobject.EventId;
 import com.mamezou_tech.example.domain.valueobject.HibernationPodId;
 import com.mamezou_tech.example.domain.valueobject.Passenger;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -40,14 +35,6 @@ class OpenApiGeneratorApplicationTests {
 
     @Test
     void contextLoads() {
-    }
-
-    @Test
-    void sayHello(@Autowired TestRestTemplate restTemplate) {
-        RequestEntity<?> request = RequestEntity.get("/example/hibernation-pod/id-001/hello").header("payload", payload).build();
-
-        ResponseEntity<String> response = restTemplate.exchange(request, String.class);
-        Assertions.assertEquals(HttpStatus.OK.value(), response.getStatusCodeValue());
     }
 
     @Test
