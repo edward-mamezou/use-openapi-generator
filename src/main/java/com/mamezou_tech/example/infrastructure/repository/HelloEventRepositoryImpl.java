@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mamezou_tech.example.domain.domainevent.HelloEvent;
 import com.mamezou_tech.example.domain.repository.HelloEventRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.support.MessageBuilder;
@@ -16,6 +18,8 @@ import java.util.Map;
 
 @Component
 public class HelloEventRepositoryImpl implements HelloEventRepository {
+
+    private final Logger logger = LoggerFactory.getLogger(HelloEventRepositoryImpl.class);
 
     private final IntegrationFlow mqttOutbound;
 
@@ -38,7 +42,7 @@ public class HelloEventRepositoryImpl implements HelloEventRepository {
             Message<String> message = MessageBuilder.withPayload(event).build();
             mqttOutbound.getInputChannel().send(message);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            logger.error("error", e);
         }
     }
 }

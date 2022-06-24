@@ -139,6 +139,7 @@ public class AuthApiController implements AuthApi {
     public ResponseEntity<String> callbackGet() {
         return getRequest().flatMap(request -> {
             HttpServletRequest httpServletRequest = request.getNativeRequest(HttpServletRequest.class);
+            ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromServletMapping(httpServletRequest);
             Map<String, String[]> parameters = httpServletRequest.getParameterMap();
             if (parameters.containsKey("error")) {
                 return Optional.empty();
@@ -162,7 +163,18 @@ public class AuthApiController implements AuthApi {
                 return Optional.empty();
             }
             return authService.callback(code, redirectUri(httpServletRequest)).map(
-                idToken -> String.format("<html><body><div>ID Token: %s</div><div>Pod ID: %s</div></body></html>", idToken, podId)
+                idToken -> {
+                    String helloUrl = builder
+                            .replaceQuery("")
+                            .queryParam("access_token", idToken)
+                            .replacePath(basePath)
+                            .path("/hibernation-pod")
+                            .path("/" + podId)
+                            .path("/hello")
+                            .build().toUriString();
+                    String template = "<html><body><ul><li>ID Token: %s</li><li>Pod ID: %s</li></ul><a href=\"%s\">%s</a></body></html>";
+                    return String.format(template, idToken, podId, helloUrl, helloUrl);
+                }
             );
         }).map(html -> new ResponseEntity<>(html, HttpStatus.OK))
         .orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));
