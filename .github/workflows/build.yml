@@ -41,4 +41,11 @@ jobs:
       - name: Build example
         uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
         with:
-          arguments: bootBuildImage -x test --imageName=example:v0.6.0
+          arguments: bootBuildImage -x test --imageName=ghcr.io/edward-mamezou/example:v0.6.0
+      - name: Log in to the Container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - run: docker push ghcr.io/edward-mamezou/example:v0.6.0
