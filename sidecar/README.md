@@ -1,7 +1,9 @@
 使い方
 ===
 
-## 準備
+## Docker Compose を使う場合
+
+### 準備
 
 このディレクトリ (`sidecar`)にある、application.yaml.examble ファイルを application.yaml ファイルとしてコピーします。
 
@@ -18,7 +20,7 @@ MQTT Broker をホスト PC 以外で使う場合は、次の部分を変更し�
     tokenEndpoint: https://keycloak.example.com/auth/realms/passengers/protocol/openid-connect/token
 ```
 
-`sidecar/envoy` ディレクトリにある、front-envoy-authn-authz.yaml.example ファイルを front-envoy.yaml ファイルとしてコピーします。
+`sidecar/envoy` ディレクトリにある、front-envoy-docker.yaml.example ファイルを front-envoy.yaml ファイルとしてコピーします。
 
 51 行目、57 行目、113 行目 を Keycloak で使用しているドメイン名に変更してください。
 
@@ -30,6 +32,27 @@ MQTT Broker をホスト PC 以外で使う場合は、次の部分を変更し�
 113:                          address: keycloak.example.com
 ```
 
-## 実行
+### 実行
 
 `docker-compose up -d` コマンドで実行します。
+
+## Kubernetes を使う場合
+
+```shell
+kubectl create configmap proxy-config --from-file envoy/front-envoy.yaml
+kubectl create secret generic aws --from-file ~/.aws/credentials
+kubectl create secret generic opa-policy --from-file opa/example-policy.rego --from-file opa/config.yaml
+kubectl create secret generic spring-config --from-file application.yaml
+```
+
+```shell
+kubectl apply -f deployment.yaml
+```
+
+```shell
+kubectl expose deployment example-app --type=NodePort --name=example-app-service --external-ip=0.0.0.0 --port=8081
+```
+
+```shell
+kubectl get service example-app-service
+```
