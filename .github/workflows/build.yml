@@ -38,3 +38,7 @@ jobs:
       - run: (NPM_CONFIG_USERCONFIG=`pwd`/.npmrc cd modules/client; npm publish)
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build example
+        uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
+        with:
+          arguments: bootBuildImage -x test --imageName=example:v0.6.0
