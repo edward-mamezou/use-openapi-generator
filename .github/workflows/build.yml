@@ -35,6 +35,6 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           scope: '@edward-mamezou'
       - run: (cd modules/client; npm install)
-      - run: NPM_CONFIG_USERCONFIG=`pwd`/.npmrc (cd modules/client; npm publish)
+      - run: (NPM_CONFIG_USERCONFIG=`pwd`/.npmrc cd modules/client; npm publish)
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
