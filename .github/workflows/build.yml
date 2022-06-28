@@ -13,6 +13,8 @@ jobs:
         run: java -DsupportingFiles -jar /tmp/openapi-generator-cli.jar batch application.yaml
       - name: Generate controller module
         run: java -jar /tmp/openapi-generator-cli.jar batch controller.yaml
+      - name: Generate client module
+        run: java -jar /tmp/openapi-generator-cli.jar batch client.yaml
       - name: Set up JDK 11
         uses: actions/setup-java@v2
         with:
