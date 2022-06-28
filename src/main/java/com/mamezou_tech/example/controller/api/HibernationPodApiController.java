@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mamezou_tech.example.application.HelloService;
 import com.mamezou_tech.example.controller.model.Hello;
 import io.swagger.v3.oas.annotations.Parameter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("${openapi.exampleService.base-path:/example}")
 public class HibernationPodApiController implements HibernationPodApi {
+
+    private static final Logger logger = LoggerFactory.getLogger(HibernationPodApiController.class);
 
     private final NativeWebRequest request;
 
@@ -52,14 +56,15 @@ public class HibernationPodApiController implements HibernationPodApi {
     }
 
     private String parseRequest(final String payload) {
-        byte[] decodedPayload = Base64.getUrlDecoder().decode(payload);
         ObjectMapper mapper = new ObjectMapper();
         try {
+            byte[] decodedPayload = Base64.getUrlDecoder().decode(payload);
             Map<?, ?> mappedPayload = mapper.readValue(decodedPayload, Map.class);
             if (mappedPayload.get("custom:firstname") instanceof String firstName) {
                 return firstName;
             }
         } catch (IOException e) {
+            logger.warn("warn", e);
             return null;
         }
         return null;
