@@ -1,6 +1,6 @@
 openapi: 3.0.2
 info:
-  version: 0.5.0
+  version: 0.6.0
   title: example-service
 servers:
   - url: 'http://localhost:8080/example'

@@ -26,3 +26,13 @@ jobs:
         run: (cd modules/controller; mvn -DaltDeploymentRepository=github::default::https://maven.pkg.github.com/edward-mamezou/use-openapi-generator --batch-mode deploy)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@edward-mamezou'
+      - run: (cd modules/client; npm install)
+      - run: NPM_CONFIG_USERCONFIG=`pwd`/.npmrc (cd modules/client; npm publish)
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
