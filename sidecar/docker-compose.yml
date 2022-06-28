@@ -3,8 +3,21 @@ services:
   envoy:
     image: envoyproxy/envoy:v1.21-latest
     volumes:
-      - ./front-envoy.yaml:/etc/front-envoy.yaml
+      - ./envoy/front-envoy.yaml:/etc/front-envoy.yaml
     ports:
-      - 8081:8081
-      - 9902:9901
+      - 8080:8080
     command: ["-c", "/etc/front-envoy.yaml", "--service-cluster", "front-proxy"]
+  opa:
+    image: openpolicyagent/opa:latest-envoy
+    volumes:
+      - ./opa/config.yaml:/work/config.yaml
+      - ./opa/example-policy.rego:/work/example-policy.rego
+    command: ["run", "--server", "--log-level", "debug", "-c", "/work/config.yaml", "/work/example-policy.rego"]
+  example:
+    image: ghcr.io/edward-mamezou/example:v0.6.0
+    volumes:
+      - ~/.aws:/home/cnb/.aws
+      - ./application.yaml:/workspace/application.yaml
+      - ./tmp:/tmp
+    environment:
+      AWS_REGION: ap-northeast-1
