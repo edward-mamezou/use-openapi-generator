@@ -34,7 +34,7 @@ MQTT Broker をホスト PC 以外で使う場合は、次の部分を変更し�
 
 ### 実行
 
-`docker-compose up -d` コマンドで実行します。
+`docker compose up -d` コマンドで実行します。
 
 ## Kubernetes を使う場合
 
@@ -50,9 +50,5 @@ kubectl apply -f deployment.yaml
 ```
 
 ```shell
-kubectl expose deployment example-app --type=NodePort --name=example-app-service --external-ip=0.0.0.0 --port=8081
-```
-
-```shell
-kubectl get service example-app-service
+kubectl port-forward deployment/example-app --address 0.0.0.0 80:8081
 ```
