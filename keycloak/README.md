@@ -42,7 +42,7 @@ internal.example.com A 192.168.1.1
 ---
 
 ```shell
-kubectl create secret tls tls-secret --cert=certs/cert.pem --key=certs/privkey.pem
+kubectl create secret tls tls-secret --cert=certs/fullchain.pem --key=certs/privkey.pem
 kubectl create -f deployment.yaml
 kubectl create -f ingress.yaml
 ```
