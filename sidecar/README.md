@@ -49,6 +49,14 @@ kubectl create secret generic spring-config --from-file application.yaml
 kubectl apply -f deployment.yaml
 ```
 
+Rancher Desktop の Ingress 等を使用する場合
+
 ```shell
-kubectl port-forward deployment/example-app --address 0.0.0.0 80:8081
+kubectl apply -f ingress.yaml
+```
+
+port-foward を使用する場合
+
+```shell
+kubectl port-forward --address 0.0.0.0 service/example-svc 80:8081
 ```
