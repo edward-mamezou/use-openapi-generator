@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Download OpenAPI Generator
-        run: curl -L https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.0.0/openapi-generator-cli-6.0.0.jar -o /tmp/openapi-generator-cli.jar
+        run: curl -L https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.2.1/openapi-generator-cli-6.2.1.jar -o /tmp/openapi-generator-cli.jar
       - name: Generate application module
         run: java -DsupportingFiles -jar /tmp/openapi-generator-cli.jar batch application.yaml
       - name: Generate controller module
