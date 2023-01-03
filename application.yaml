@@ -6,11 +6,10 @@ additionalProperties:
   modelPackage: 'com.mamezou_tech.example.controller.model'
   apiPackage: 'com.mamezou_tech.example.controller.api'
   invokerPackage: 'com.mamezou_tech.example.controller.api'
-  groupId: 'com.mamezou_tech.example-service'
+  groupId: 'com.mamezou-tech.example-service'
   dateLibrary: java8
   java8: true
   library: spring-boot
   artifactId: 'example-application'
-  artifactVersion: '0.1.0'
   snapshotVersion: 'true'
   useTags: true

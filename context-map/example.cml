@@ -1,0 +1,44 @@
+ContextMap {
+    contains ExampleContext
+}
+
+BoundedContext ExampleContext {
+    type SYSTEM
+    implementationTechnology "Java"
+
+    Aggregate Passengers {
+        Entity HibernationPod {
+            aggregateRoot
+
+            - HibernationPodId podId
+            - Passenger passenger
+
+            def HelloEvent sayHello(String podId, String firstName);
+        }
+
+        ValueObject HibernationPodId {
+            String podId
+        }
+
+        ValueObject Passenger {
+            String firstName
+        }
+    }
+
+    Aggregate HelloEvents {
+        DomainEvent HelloEvent {
+            aggregateRoot
+
+            - EventId eventId
+            - HibernationPod pod
+            URL helloVoice
+            DateTime time
+
+            def HelloEvent publishEvent(HibernationPod hibernationPod);
+        }
+
+        ValueObject EventId {
+            String eventId
+        }
+    }
+}

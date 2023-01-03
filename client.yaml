@@ -1,0 +1,7 @@
+inputSpec: 'openapi.yml'
+generatorName: typescript-axios
+outputDir: modules/client
+additionalProperties:
+  npmName: "@edward-mamezou/example-client"
+  npmRepository: https://github.com/edward-mamezou/use-openapi-generator.git
+  snapshot: true

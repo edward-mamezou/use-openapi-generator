@@ -11,9 +11,9 @@ configurations {
     unzipFile
 }
 
-group = 'com.mamezou_tech.example-service'
-version = '0.1.0-SNAPSHOT'
-sourceCompatibility = '1.8'
+group = 'com.mamezou-tech.example-service'
+version = '0.6.0-SNAPSHOT'
+sourceCompatibility = '1.17'
 
 repositories {
     mavenCentral()
@@ -21,14 +21,24 @@ repositories {
 }
 
 dependencies {
-    implementation     'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-integration'
+    implementation 'org.springframework.integration:spring-integration-mqtt'
+
+    implementation 'com.googlecode.soundlibs:mp3spi:1.9.5-1'
+
+    implementation 'software.amazon.awssdk:polly:2.17.213'
+
+    implementation 'com.google.zxing:javase:3.5.0'
+
+    implementation ('com.mamezou-tech.example-service:example-controller:' + version) {
+        changing = true
+    }
+    unzipFile      ('com.mamezou-tech.example-service:example-application:' + version) {
+        changing = true
+    }
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation     ('com.mamezou_tech.example-service:example-controller:0.1.0-SNAPSHOT') {
-        changing = true
-    }
-    unzipFile          ('com.mamezou_tech.example-service:example-application:0.1.0-SNAPSHOT') {
-        changing = true
-    }
 }
 
 test {
@@ -37,7 +47,7 @@ test {
 
 task unzip(type: Copy) {
     def file = configurations.unzipFile.files.find {
-        'example-application-0.1.0-SNAPSHOT.jar'
+        'example-application-' + version + '.jar'
     }
     from zipTree(file)
     into 'build/unzipFile'

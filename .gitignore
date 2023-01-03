@@ -2,3 +2,6 @@
 build/
 .gradle/
 /modules/
+/src-gen/
+/bin/
+/gen/

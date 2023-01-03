@@ -1,0 +1,13 @@
+openapi:
+  exampleService:
+    base-path: /example
+    paho:
+      broker-url: tcp://localhost:1883
+      defaultTopic: hibernation-pod/hello
+
+auth:
+  authorizationEndpoint: https://keycloak.example.com/auth/realms/passengers/protocol/openid-connect/auth
+  tokenEndpoint: https://keycloak.example.com/auth/realms/passengers/protocol/openid-connect/token
+  clientId: hibernation-pod
+  clientSecret: SECRETSECRETSECRET
+  callback: /callback
